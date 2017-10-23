@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Cards</string>
+    <string name="game_join">Join Game</string>
+    <string name="game_new">New Game</string>
+</resources>
