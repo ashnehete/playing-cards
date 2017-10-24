@@ -16,4 +16,10 @@ public class AppConstants {
     public static char DIAMONDS_ICON = '♦';
     public static char CLUBS_ICON = '♣';
     public static char SPADES_ICON = '♠';
+
+    public static String GAME_STATE_CREATED = "CREATED";
+    public static String GAME_STATE_SHUFFLE = "SHUFFLE";
+    public static String GAME_STATE_DISTRIBUTE = "DISTRIBUTE";
+    public static String GAME_STATE_ACTIVE = "ACTIVE";
+    public static String GAME_STATE_ENDED = "ENDED";
 }
