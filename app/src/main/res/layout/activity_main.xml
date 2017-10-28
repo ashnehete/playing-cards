@@ -16,13 +16,13 @@
         android:textSize="50sp" />
 
     <Button
-        android:id="@+id/button_join"
+        android:id="@+id/button_join_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/game_join" />
 
     <Button
-        android:id="@+id/button_new"
+        android:id="@+id/button_new_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/game_new" />

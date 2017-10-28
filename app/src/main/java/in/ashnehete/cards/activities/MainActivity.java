@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -13,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import in.ashnehete.cards.R;
 
 import static in.ashnehete.cards.AppConstants.RC_SIGN_IN;
@@ -21,10 +25,18 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    @BindView(R.id.button_join_game)
+    Button buttonJoinGame;
+    @BindView(R.id.button_new_game)
+    Button buttonNewGame;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
+        // Authentication
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             // User logged in
@@ -41,6 +53,22 @@ public class MainActivity extends AppCompatActivity {
                     RC_SIGN_IN
             );
         }
+
+        buttonJoinGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, JoinGameActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonNewGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NewGameActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
