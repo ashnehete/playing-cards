@@ -8,9 +8,9 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class CurrentGame {
-    public String id;
-    public String name;
-    public String password;
+    private String id;
+    private String name;
+    private String password;
 
     public CurrentGame() {
     }
@@ -19,5 +19,33 @@ public class CurrentGame {
         this.id = id;
         this.name = name;
         this.password = password;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean hasPassword() {
+        return !("".equals(this.password));
     }
 }

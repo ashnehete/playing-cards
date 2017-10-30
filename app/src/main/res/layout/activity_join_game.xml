@@ -6,7 +6,7 @@
     tools:context="in.ashnehete.cards.activities.JoinGameActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_games"
+        android:id="@+id/recycler_games"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />

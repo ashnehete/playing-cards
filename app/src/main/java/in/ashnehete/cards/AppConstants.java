@@ -5,6 +5,8 @@ package in.ashnehete.cards;
  */
 
 public class AppConstants {
+    public static final String TAG = "Cards";
+
     public static final int RC_SIGN_IN = 10;
 
     public static char HEARTS = 'H';
