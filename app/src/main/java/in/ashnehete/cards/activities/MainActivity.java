@@ -17,6 +17,7 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import in.ashnehete.cards.R;
 
 import static in.ashnehete.cards.AppConstants.RC_SIGN_IN;
@@ -71,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @OnClick(R.id.button_logout)
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -78,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
             if (resultCode == RESULT_OK) {
-                Log.i(TAG, "Signed In\n" + "Response: " + response.getUser().toString());
+                Log.i(TAG, "Signed In");
             } else {
                 if (response == null) {
                     Log.i(TAG, "User cancelled");

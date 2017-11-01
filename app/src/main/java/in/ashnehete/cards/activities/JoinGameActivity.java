@@ -25,11 +25,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.ashnehete.cards.R;
 import in.ashnehete.cards.models.CurrentGame;
 
+import static in.ashnehete.cards.AppConstants.PREF;
 import static in.ashnehete.cards.AppConstants.PREF_GAME_ID;
 import static in.ashnehete.cards.AppConstants.PREF_GAME_ON;
 import static in.ashnehete.cards.AppConstants.TAG;
@@ -39,6 +43,7 @@ public class JoinGameActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_games)
     RecyclerView recyclerGames;
+
     FirebaseRecyclerAdapter<CurrentGame, CurrentGameViewHolder> adapter;
     private DatabaseReference mDatabase;
     private FirebaseUser mUser;
@@ -122,7 +127,12 @@ public class JoinGameActivity extends AppCompatActivity {
     }
 
     private void goToWaitActivity(String gameId) {
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        // Add player to game
+        Map<String, Object> childUpdates = new HashMap<>(1);
+        childUpdates.put("games/" + gameId + "/players/" + mUser.getUid(), mUser.getDisplayName());
+        mDatabase.updateChildren(childUpdates);
+
+        SharedPreferences preferences = getSharedPreferences(PREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(PREF_GAME_ID, gameId);
         editor.putBoolean(PREF_GAME_ON, true);
@@ -147,6 +157,7 @@ public class JoinGameActivity extends AppCompatActivity {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.i(TAG, "JoinGame Game ID: " + currentGame.getId());
                     if (currentGame.hasPassword()) {
                         AlertDialog.Builder builder = getPasswordDialogBuilder(currentGame);
                         builder.show();

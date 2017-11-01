@@ -13,11 +13,11 @@ import static in.ashnehete.cards.AppConstants.GAME_STATE_CREATED;
 
 @IgnoreExtraProperties
 public class Game {
-    public String name;
-    public String state;
-    public Map<String, String> players;
-    public List<String> winners;
-    public String password;
+    private String name;
+    private String state;
+    private Map<String, String> players;
+    private List<String> winners;
+    private String password;
 
     public Game() {
     }
@@ -34,6 +34,46 @@ public class Game {
         this.state = state;
         this.players = players;
         this.winners = winners;
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Map<String, String> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Map<String, String> players) {
+        this.players = players;
+    }
+
+    public List<String> getWinners() {
+        return winners;
+    }
+
+    public void setWinners(List<String> winners) {
+        this.winners = winners;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
     }
 }

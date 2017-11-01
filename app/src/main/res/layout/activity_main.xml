@@ -26,4 +26,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/game_new" />
+
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
 </LinearLayout>

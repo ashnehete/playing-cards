@@ -8,6 +8,7 @@ public class AppConstants {
     public static final String TAG = "Cards";
 
     // Preferences
+    public static final String PREF = "cards_prefs";
     public static final String PREF_GAME_ON = "game_on";
     public static final String PREF_GAME_ID = "game_id";
     public static final String PREF_IS_CREATOR = "is_creator";
