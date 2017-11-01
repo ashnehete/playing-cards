@@ -3,4 +3,5 @@
     <string name="game_join">Join Game</string>
     <string name="game_new">New Game</string>
     <string name="distribute">Distribute</string>
+    <string name="play">Play</string>
 </resources>

@@ -1,7 +1,9 @@
 package in.ashnehete.cards.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,7 +48,7 @@ public class WaitActivity extends AppCompatActivity {
     PlayersAdapter adapter;
     String gameId;
     boolean isCreator;
-    List<Player> playersList = new ArrayList<>();
+    List<Player> playerList = new ArrayList<>();
     private DatabaseReference mDatabase;
 
     @Override
@@ -67,7 +71,9 @@ public class WaitActivity extends AppCompatActivity {
             buttonDistribute.setVisibility(View.VISIBLE);
         }
 
-        adapter = new PlayersAdapter(playersList);
+        List<Player> dummyList = new ArrayList<>();
+        dummyList.addAll(playerList);
+        adapter = new PlayersAdapter(dummyList);
         recyclerPlayers.setLayoutManager(new LinearLayoutManager(this));
         recyclerPlayers.setAdapter(adapter);
         setDataChangeListener();
@@ -80,15 +86,16 @@ public class WaitActivity extends AppCompatActivity {
                 Log.i(TAG, "DataChanged: " + dataSnapshot.toString());
                 Game game = dataSnapshot.getValue(Game.class);
                 if (game != null) {
+                    playerList.clear();
                     Map<String, String> players = game.getPlayers();
                     for (Map.Entry<String, String> entry : players.entrySet()) {
-                        playersList.add(new Player(
+                        playerList.add(new Player(
                                 entry.getKey(),
                                 entry.getValue()
                         ));
                     }
 
-                    adapter.addAll(playersList);
+                    adapter.addAll(playerList);
                 }
             }
 
@@ -103,6 +110,15 @@ public class WaitActivity extends AppCompatActivity {
     public void distribute() {
         Map<String, Object> childUpdates = new HashMap<>(1);
         childUpdates.put("games/" + gameId + "/state/", GAME_STATE_DISTRIBUTE);
-        mDatabase.updateChildren(childUpdates);
+        mDatabase.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.i(TAG, "Successful: " + task.isSuccessful());
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(WaitActivity.this, GameActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }

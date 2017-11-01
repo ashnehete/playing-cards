@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".activities.JoinGameActivity" />
         <activity android:name=".activities.NewGameActivity" />
-        <activity android:name=".activities.WaitActivity"></activity>
+        <activity android:name=".activities.WaitActivity" />
+        <activity android:name=".activities.GameActivity"></activity>
     </application>
 
 </manifest>

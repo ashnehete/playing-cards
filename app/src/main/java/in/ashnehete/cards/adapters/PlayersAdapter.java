@@ -1,6 +1,7 @@
 package in.ashnehete.cards.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.ashnehete.cards.R;
 import in.ashnehete.cards.models.Player;
+
+import static in.ashnehete.cards.AppConstants.TAG;
 
 /**
  * Created by Aashish Nehete on 01-Nov-17.
@@ -41,12 +44,10 @@ public class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.PlayerVi
         return players.size();
     }
 
-    public void addAll(List<Player> players) {
-        for (int i = 0; i < getItemCount(); i++) {
-            this.players.remove(i);
-        }
-        notifyItemRangeRemoved(0, getItemCount());
-        this.players = players;
+    public void addAll(List<Player> playerList) {
+        Log.i(TAG, "Old size: " + getItemCount() + "\nNew size: " + playerList.size());
+        players.clear();
+        players.addAll(playerList);
         notifyDataSetChanged();
     }
 
