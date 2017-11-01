@@ -5,4 +5,10 @@
     android:layout_height="match_parent"
     tools:context="in.ashnehete.cards.activities.WaitActivity">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_players"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
+
 </android.support.constraint.ConstraintLayout>

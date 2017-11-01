@@ -7,6 +7,11 @@ package in.ashnehete.cards;
 public class AppConstants {
     public static final String TAG = "Cards";
 
+    // Preferences
+    public static final String PREF_GAME_ON = "game_on";
+    public static final String PREF_GAME_ID = "game_id";
+    public static final String PREF_IS_CREATOR = "is_creator";
+
     public static final int RC_SIGN_IN = 10;
 
     public static char HEARTS = 'H';

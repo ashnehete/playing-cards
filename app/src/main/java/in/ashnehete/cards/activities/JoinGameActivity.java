@@ -1,14 +1,19 @@
 package in.ashnehete.cards.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +30,10 @@ import butterknife.ButterKnife;
 import in.ashnehete.cards.R;
 import in.ashnehete.cards.models.CurrentGame;
 
+import static in.ashnehete.cards.AppConstants.PREF_GAME_ID;
+import static in.ashnehete.cards.AppConstants.PREF_GAME_ON;
 import static in.ashnehete.cards.AppConstants.TAG;
+import static in.ashnehete.cards.Util.showToast;
 
 public class JoinGameActivity extends AppCompatActivity {
 
@@ -82,6 +90,47 @@ public class JoinGameActivity extends AppCompatActivity {
         recyclerGames.setAdapter(adapter);
     }
 
+    private AlertDialog.Builder getPasswordDialogBuilder(final CurrentGame currentGame) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Password Protected");
+
+        final EditText editPassword = new EditText(this);
+        editPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(editPassword);
+
+        builder.setPositiveButton("ENTER", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String input = editPassword.getText().toString();
+                if (currentGame.getPassword().equals(input)) {
+                    goToWaitActivity(currentGame.getId());
+                } else {
+                    showToast(getApplicationContext(), "Wrong Password");
+                    dialogInterface.cancel();
+                }
+            }
+        });
+
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        return builder;
+    }
+
+    private void goToWaitActivity(String gameId) {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PREF_GAME_ID, gameId);
+        editor.putBoolean(PREF_GAME_ON, true);
+        editor.apply();
+
+        Intent intent = new Intent(JoinGameActivity.this, WaitActivity.class);
+        startActivity(intent);
+    }
 
     class CurrentGameViewHolder extends RecyclerView.ViewHolder {
 
@@ -99,10 +148,10 @@ public class JoinGameActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if (currentGame.hasPassword()) {
-                        Intent intent = new Intent(JoinGameActivity.this, WaitActivity.class);
-                        startActivity(intent);
+                        AlertDialog.Builder builder = getPasswordDialogBuilder(currentGame);
+                        builder.show();
                     } else {
-
+                        goToWaitActivity(currentGame.getId());
                     }
                 }
             });

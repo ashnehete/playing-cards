@@ -1,5 +1,7 @@
 package in.ashnehete.cards.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +26,9 @@ import butterknife.ButterKnife;
 import in.ashnehete.cards.R;
 import in.ashnehete.cards.models.Game;
 
+import static in.ashnehete.cards.AppConstants.PREF_GAME_ID;
+import static in.ashnehete.cards.AppConstants.PREF_GAME_ON;
+import static in.ashnehete.cards.AppConstants.PREF_IS_CREATOR;
 import static in.ashnehete.cards.Util.showToast;
 
 public class NewGameActivity extends AppCompatActivity {
@@ -63,7 +68,7 @@ public class NewGameActivity extends AppCompatActivity {
                 players.put(mUser.getUid(), mUser.getDisplayName());
                 Game game = new Game(name, password, players);
 
-                String key = mDatabase.child("games").push().getKey();
+                final String key = mDatabase.child("games").push().getKey();
                 Log.i(TAG, "Game Key: " + key);
 
                 mDatabase.child("games").child(key).setValue(game).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -76,6 +81,15 @@ public class NewGameActivity extends AppCompatActivity {
                         }
                         if (task.isSuccessful()) {
                             showToast(NewGameActivity.this, "Game Created");
+
+                            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString(PREF_GAME_ID, key);
+                            editor.putBoolean(PREF_GAME_ON, true);
+                            editor.putBoolean(PREF_IS_CREATOR, true);
+                            editor.apply();
+
+                            Intent intent = new Intent(NewGameActivity.this, WaitActivity.class);
                         }
                     }
                 });
