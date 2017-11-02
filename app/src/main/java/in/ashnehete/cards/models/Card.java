@@ -21,6 +21,9 @@ public class Card {
     private char suit; // H, D, C, S
     private Map<Character, Character> suitIcons;
 
+    public Card() {
+    }
+
     public Card(String card) {
         suitIcons = new HashMap<>(4);
         suitIcons.put(HEARTS, HEARTS_ICON);
@@ -28,6 +31,14 @@ public class Card {
         suitIcons.put(CLUBS, CLUBS_ICON);
         suitIcons.put(SPADES, SPADES_ICON);
         parseCard(card);
+    }
+
+    public static Card fromDisplayString(String displayString) {
+        String[] cardValues = displayString.split(" ");
+        Card card = new Card();
+        card.setRank(cardValues[0].charAt(0));
+        card.setSuitIcon(cardValues[0].charAt(0));
+        return card;
     }
 
     public char getRank() {
@@ -50,6 +61,13 @@ public class Card {
         return suitIcons.get(this.getSuit());
     }
 
+    public void setSuitIcon(char suitIcon) {
+        for (Map.Entry<Character, Character> suitIconEntry : suitIcons.entrySet()) {
+            if (suitIconEntry.getKey() == suitIcon)
+                this.suit = suitIconEntry.getValue();
+        }
+    }
+
     /**
      * Format - <rank>:<suit>
      *
@@ -59,16 +77,21 @@ public class Card {
         String[] cardValues = card.split(":");
         if (validateCard(cardValues)) {
             this.setRank(cardValues[0].charAt(0));
-            this.setSuit(cardValues[0].charAt(0));
+            this.setSuit(cardValues[1].charAt(0));
         } else {
-            throw new IllegalArgumentException("Card Format incorrect");
+            throw new IllegalArgumentException("Card Format incorrect: 0th - " + cardValues[0] +
+                    " 1st - " + cardValues[1]);
         }
     }
 
     private boolean validateCard(String[] cardValues) {
         if (cardValues.length != 2) return false;
-        if (cardValues[0].length() == 1) return false;
         // TODO: Add more validations - Rank and Suit constraints, etc.
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return getRank() + ":" + getSuit();
     }
 }

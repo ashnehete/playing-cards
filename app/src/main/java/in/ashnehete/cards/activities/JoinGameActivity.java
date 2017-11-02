@@ -136,7 +136,7 @@ public class JoinGameActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(PREF_GAME_ID, gameId);
         editor.putBoolean(PREF_GAME_ON, true);
-        editor.apply();
+        editor.commit();
 
         Intent intent = new Intent(JoinGameActivity.this, WaitActivity.class);
         startActivity(intent);

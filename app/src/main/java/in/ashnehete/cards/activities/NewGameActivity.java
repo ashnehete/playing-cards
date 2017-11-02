@@ -18,22 +18,23 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.ashnehete.cards.R;
 import in.ashnehete.cards.models.Game;
 
+import static in.ashnehete.cards.AppConstants.PREF;
 import static in.ashnehete.cards.AppConstants.PREF_GAME_ID;
 import static in.ashnehete.cards.AppConstants.PREF_GAME_ON;
 import static in.ashnehete.cards.AppConstants.PREF_IS_CREATOR;
+import static in.ashnehete.cards.AppConstants.TAG;
 import static in.ashnehete.cards.Util.showToast;
 
 public class NewGameActivity extends AppCompatActivity {
 
-    private static final String TAG = "NewGameActivity";
     @BindView(R.id.edit_new_name)
     EditText editNewGame;
     @BindView(R.id.edit_new_password)
@@ -64,12 +65,12 @@ public class NewGameActivity extends AppCompatActivity {
                 String name = editNewGame.getText().toString();
                 String password = editNewPassword.getText().toString();
 
-                Map<String, String> players = new HashMap<String, String>();
+                SortedMap<String, String> players = new TreeMap<>();
                 players.put(mUser.getUid(), mUser.getDisplayName());
                 Game game = new Game(name, password, players);
 
                 final String key = mDatabase.child("games").push().getKey();
-                Log.i(TAG, "Game Key: " + key);
+                Log.i(TAG, "NewGameActivity Game Id: " + key);
 
                 mDatabase.child("games").child(key).setValue(game).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -82,14 +83,15 @@ public class NewGameActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             showToast(NewGameActivity.this, "Game Created");
 
-                            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+                            SharedPreferences preferences = getSharedPreferences(PREF, MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString(PREF_GAME_ID, key);
                             editor.putBoolean(PREF_GAME_ON, true);
                             editor.putBoolean(PREF_IS_CREATOR, true);
-                            editor.apply();
+                            editor.commit();
 
                             Intent intent = new Intent(NewGameActivity.this, WaitActivity.class);
+                            startActivity(intent);
                         }
                     }
                 });

@@ -12,22 +12,26 @@ public class AppConstants {
     public static final String PREF_GAME_ON = "game_on";
     public static final String PREF_GAME_ID = "game_id";
     public static final String PREF_IS_CREATOR = "is_creator";
+    public static final String PREF_FIRST_PLAYER = "first_player";
+    public static final String PREF_NEXT_PLAYER = "next_player";
 
     public static final int RC_SIGN_IN = 10;
 
-    public static char HEARTS = 'H';
-    public static char DIAMONDS = 'D';
-    public static char CLUBS = 'C';
-    public static char SPADES = 'S';
+    public static final char HEARTS = 'H';
+    public static final char DIAMONDS = 'D';
+    public static final char CLUBS = 'C';
+    public static final char SPADES = 'S';
 
-    public static char HEARTS_ICON = '♥';
-    public static char DIAMONDS_ICON = '♦';
-    public static char CLUBS_ICON = '♣';
-    public static char SPADES_ICON = '♠';
+    public static final char HEARTS_ICON = '♥';
+    public static final char DIAMONDS_ICON = '♦';
+    public static final char CLUBS_ICON = '♣';
+    public static final char SPADES_ICON = '♠';
 
-    public static String GAME_STATE_CREATED = "CREATED";
-    public static String GAME_STATE_SHUFFLE = "SHUFFLE";
-    public static String GAME_STATE_DISTRIBUTE = "DISTRIBUTE";
-    public static String GAME_STATE_ACTIVE = "ACTIVE";
-    public static String GAME_STATE_ENDED = "ENDED";
+    public static final String GAME_STATE_CREATED = "CREATED";
+    public static final String GAME_STATE_SHUFFLE = "SHUFFLE";
+    public static final String GAME_STATE_DISTRIBUTE = "DISTRIBUTE";
+    public static final String GAME_STATE_ACTIVE = "ACTIVE";
+    public static final String GAME_STATE_ENDED = "ENDED";
+
+    public static final String NO_NEXT_PLAYER = "NO_NEXT_PLAYER";
 }
